@@ -21,11 +21,11 @@ Every decision matters. Every second counts.
 
 ## 📸 Game Preview
 
-| Screenshot 01 | Screenshot 02 |
+| The Beginning 01 | Entry Room 02 |
 |:---:|:---:|
 | ![](room-01.png.png) | ![](room-02.png.png) |
 
-| Screenshot 03 | Screenshot 04 |
+| Code Recovered 03 | System Shutdown 04 |
 |:---:|:---:|
 | ![](room-03.png.png) | ![](room-04.png.png) |
 
