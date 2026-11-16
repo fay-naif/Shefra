@@ -1,37 +1,27 @@
-/* =========================================================
-   الشيفرة الأخيرة | THE LAST CODE
-   منطق اللعبة كاملاً — جافاسكربت عادية + GSAP
-   ---------------------------------------------------------
-   ✏️ كل النصوص والإجابات موجودة في كائن CONFIG بالأسفل،
-      عدّليها من هناك بدون ما تلمسين باقي الكود.
-   ========================================================= */
 
-/* =========================================================
-   ١) الإعدادات — CONFIG
-   ========================================================= */
 const CONFIG = {
-  totalMinutes: 45,        // مدة اللعبة بالدقائق
-  wrongPenalty: 1,         // دقائق تُخصم عند الإجابة الخاطئة
-  hintPenalty: 2,          // دقائق تُخصم عند طلب تلميح
-  trapPenalty: 3,          // دقائق تُخصم عند اختيار الباب الخاطئ في غرفة القرار
-  dangerMinutes: 5,        // تحت هذا الوقت يصير العداد أحمر نابض
-  vaultAttempts: 3,        // عدد محاولات إدخال الشيفرة في الخزنة
+  totalMinutes: 45,        
+  wrongPenalty: 1,         
+  hintPenalty: 2,          
+  trapPenalty: 3,          
+  dangerMinutes: 5,        
+  vaultAttempts: 3,        
 
-  // رسالة البداية (تُكتب حرفاً حرفاً)
+  
   introLines: [
     'تم اكتشاف محاولة وصول غير معروفة إلى النظام...',
     'تبقّت 45 دقيقة قبل إغلاق جميع الملفات نهائيًا.',
     'أمامك فرصة واحدة لاستعادة الشيفرة الأخيرة.'
   ],
 
-  // الغرف الخمس — كل غرفة تعطي رقماً واحداً من الشيفرة النهائية
+  
   rooms: [
     {
       type: 'caesar',
       title: 'غرفة', accent: 'الدخول',
       story: 'بوابة النظام مقفلة بكلمة مشفّرة بشيفرة قيصر. أدِر العجلة حتى تظهر الكلمة الحقيقية.',
-      cipher: 'VHYHQ',            // النص المشفّر
-      shift: 3,                   // الإزاحة الصحيحة  → SEVEN
+      cipher: 'VHYHQ',            
+      shift: 3,                   
       clue: 'مفتاح الإزاحة = <b>عدد أضلاع المثلث</b>',
       digit: 7,
       reveal: 'SEVEN = 7',
@@ -41,8 +31,8 @@ const CONFIG = {
       type: 'binary',
       title: 'غرفة', accent: 'الملفات',
       story: 'ملف مشفّر بالنظام الثنائي. حوّل الرقم إلى النظام العشري لتستعيد الجزء الثاني.',
-      bits: '00001001',           // الرقم بالثنائي
-      answer: 9,                  // قيمته بالعشري
+      bits: '00001001',           
+      answer: 9,                  
       digit: 9,
       hint: 'اضغط على كل خانة فيها 1 وشوف وزنها: 8 + 1 = ؟'
     },
@@ -50,9 +40,9 @@ const CONFIG = {
       type: 'sequence',
       title: 'غرفة', accent: 'الشبكة',
       story: 'عُقد الشبكة تنقل الإشارة بنمط ثابت. اكتشف النمط واختر العقدة المفقودة.',
-      sequence: [81, 27, 9, 3],   // العُقد الظاهرة
+      sequence: [81, 27, 9, 3],   
       options: [0, 1, 2, 6, 12, 33],
-      answer: 1,                  // كل عقدة = السابقة ÷ 3
+      answer: 1,
       digit: 1,
       hint: 'كل عقدة هي ثلث العقدة اللي قبلها: 81 ÷ 3 = 27 …'
     },
@@ -61,7 +51,7 @@ const CONFIG = {
       title: 'غرفة', accent: 'الذاكرة',
       story: 'ذاكرة النظام تومض بتسلسل سري. راقب جيداً، ثم أعد التسلسل بنفس الترتيب.',
       symbols: ['ع', 'ق', 'ل', 'ن', 'و', 'ر'],
-      sequence: [2, 0, 4, 1, 5],  // ترتيب الألواح (من 0 إلى 5)
+      sequence: [2, 0, 4, 1, 5],  
       digit: 4,
       hint: 'التسلسل خمس ومضات: ل ← ع ← و ← ق ← ر'
     },
@@ -82,7 +72,7 @@ const CONFIG = {
     }
   ],
 
-  // نصوص النهايات
+  
   winTitle: 'تم استعادة الشيفرة',
   winText: 'أنقذت النظام في اللحظة الأخيرة. الملفات آمنة… هذه المرة.',
   loseTitle: 'تم إغلاق النظام',
@@ -90,17 +80,13 @@ const CONFIG = {
   loseTextCode: 'الشيفرة خاطئة. فعّل النظام بروتوكول الإغلاق الكامل.'
 };
 
-// الشيفرة النهائية = أرقام الغرف بالترتيب (7 9 1 4 5)
 const FINAL_CODE = CONFIG.rooms.map(r => String(r.digit)).join('');
 
-/* =========================================================
-   ٢) حالة اللعبة
-   ========================================================= */
 const state = {
-  phase: 'intro',     // intro | room | fragment | vault | end
-  room: 0,            // رقم الغرفة الحالية
-  solved: [],         // الغرف المحلولة
-  endAt: 0,           // وقت انتهاء العداد (ميلي ثانية)
+  phase: 'intro',     
+  room: 0,            
+  solved: [],         
+  endAt: 0,           
   timerId: null,
   over: false,
   attemptsLeft: CONFIG.vaultAttempts,
@@ -111,9 +97,6 @@ const state = {
 const $ = (s, el = document) => el.querySelector(s);
 const stage = $('#stage');
 
-/* =========================================================
-   ٣) الصوت — يُولَّد بالكود عبر WebAudio (بدون ملفات)
-   ========================================================= */
 const Sound = {
   ctx: null, master: null, muted: false, drone: null,
   init() {
@@ -125,7 +108,6 @@ const Sound = {
     this.master.gain.value = this.muted ? 0 : 0.8;
     this.master.connect(this.ctx.destination);
   },
-  // همهمة منخفضة مستمرة (جو التشويق)
   startDrone() {
     if (!this.ctx || this.drone) return;
     const c = this.ctx, g = c.createGain(), f = c.createBiquadFilter();
@@ -159,11 +141,7 @@ const Sound = {
   }
 };
 
-/* =========================================================
-   ٤) الخلفية: جزيئات + حبيبات الفيلم + شاشات غرفة التحكم
-   ========================================================= */
 function initBackground() {
-  // --- حبيبات الفيلم (Noise) تُرسم مرة وحدة ---
   const n = document.createElement('canvas'); n.width = n.height = 180;
   const nx = n.getContext('2d'), img = nx.createImageData(180, 180);
   for (let i = 0; i < img.data.length; i += 4) {
@@ -172,7 +150,6 @@ function initBackground() {
   nx.putImageData(img, 0, 0);
   $('.fx-grain').style.backgroundImage = `url(${n.toDataURL()})`;
 
-  // --- نصوص برمجية خافتة على الشاشات المنحنية ---
   const hex = () => Math.random().toString(16).slice(2, 10).toUpperCase();
   document.querySelectorAll('.mon pre').forEach(pre => {
     let s = '';
@@ -181,7 +158,6 @@ function initBackground() {
     gsap.to(pre, { y: -600, duration: 40, ease: 'none', repeat: -1 });
   });
 
-  // --- جزيئات غبار حمراء وذهبية ---
   const cv = $('#bg'), cx = cv.getContext('2d');
   let W, H, parts = [];
   const resize = () => {
@@ -207,11 +183,7 @@ function initBackground() {
   })();
 }
 
-/* =========================================================
-   ٥) أدوات مساعدة: انتقال، رسائل، وميض، عقوبة
-   ========================================================= */
 function show(html, onReady) {
-  // انتقال سينمائي مع خلل بصري بين المشاهد
   const old = stage.firstElementChild;
   const swap = () => {
     stage.innerHTML = html;
@@ -238,7 +210,6 @@ function flashRed() {
   gsap.fromTo('.fx-flash', { opacity: 1 }, { opacity: 0, duration: .8, ease: 'power2.out' });
 }
 
-// خصم وقت (خطأ / تلميح)
 function penalty(min) {
   state.endAt -= min * 60000;
   const tm = $('#timer');
@@ -246,7 +217,6 @@ function penalty(min) {
   updateTimer();
 }
 
-// إجابة خاطئة
 function wrong(el, msg) {
   state.mistakes++;
   Sound.alarm(); flashRed();
@@ -255,9 +225,6 @@ function wrong(el, msg) {
   toast(msg || `إجابة خاطئة… خسرت ${CONFIG.wrongPenalty} دقيقة`, true);
 }
 
-/* =========================================================
-   ٦) العداد التنازلي
-   ========================================================= */
 function startTimer() {
   state.endAt = Date.now() + CONFIG.totalMinutes * 60000;
   clearInterval(state.timerId);
@@ -278,9 +245,6 @@ function updateTimer() {
   if (ms <= 0) endGame(false, CONFIG.loseTextTime);
 }
 
-/* =========================================================
-   ٧) أيقونات الأقفال (التقدم)
-   ========================================================= */
 const lockSVG = (open, gold, red = false) => `
 <svg viewBox="0 0 30 34">
   <path d="M8 15 V10 a7 7 0 0 1 14 0 ${open ? 'V6' : 'V15'}" fill="none" stroke="${gold ? '#f3c56b' : red ? '#ff2a45' : '#7a2a32'}" stroke-width="3" stroke-linecap="round"
@@ -297,9 +261,6 @@ function renderLocks() {
   }).join('');
 }
 
-/* =========================================================
-   ٨) المقدمة
-   ========================================================= */
 function intro() {
   state.phase = 'intro';
   show(`
@@ -321,7 +282,6 @@ function intro() {
   });
 }
 
-// كتابة النص حرفاً حرفاً (آلة كاتبة)
 function typeLines(box, lines, done) {
   let li = 0, ci = 0;
   const lineEls = lines.map(() => { const d = document.createElement('div'); box.appendChild(d); return d; });
@@ -345,7 +305,6 @@ function typeLines(box, lines, done) {
   step();
 }
 
-// النقر على المقدمة يشغّل الصوت (المتصفح يحتاج تفاعل)
 function startGame() {
   Sound.init(); Sound.startDrone(); Sound.success();
   Object.assign(state, { room: 0, solved: [], over: false, attemptsLeft: CONFIG.vaultAttempts, hintsUsed: 0, mistakes: 0 });
@@ -357,9 +316,6 @@ function startGame() {
   enterRoom(0);
 }
 
-/* =========================================================
-   ٩) الغرف
-   ========================================================= */
 function roomHead(r, i) {
   return `<div class="room-head">
       <div class="room-tag">ROOM 0${i + 1} / 05</div>
@@ -381,7 +337,6 @@ function enterRoom(i) {
   ROOMS[r.type](r, i);
 }
 
-// عند حل الغرفة
 function solveRoom(i) {
   if (state.solved.includes(i)) return;
   state.solved.push(i);
@@ -406,13 +361,12 @@ function solveRoom(i) {
 }
 
 const ROOMS = {
-  /* ---------- الغرفة 1: عجلة قيصر ---------- */
   caesar(r, i) {
     const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let shift = 0;
     const decode = (s, k) => s.replace(/[A-Z]/g, ch => A[(A.indexOf(ch) - k + 26) % 26]);
-    // رسم العجلة: الحلقة الخارجية ثابتة (النص الأصلي) والداخلية تدور (المشفّر)
-    const ring = (rad, size, color, cls) => A.split('').map((ch, k) => {
+
+     const ring = (rad, size, color, cls) => A.split('').map((ch, k) => {
       const ang = k * 360 / 26;
       return `<text x="0" y="${-rad}" transform="rotate(${ang})" text-anchor="middle" dominant-baseline="middle"
         font-family="Mono,monospace" font-weight="700" font-size="${size}" fill="${color}" class="${cls}">${ch}</text>`;
@@ -454,7 +408,6 @@ const ROOMS = {
         $('#shiftVal').textContent = shift;
         $('#wheelShift').textContent = '+' + shift;
         $('#plain').textContent = decode(r.cipher, shift);
-        // الحرف المشفّر X يقابل الحرف الأصلي (X - shift)، فندوّر الحلقة الداخلية عكس عقارب الساعة
         gsap.to('#inner', { rotation: -shift * 360 / 26, svgOrigin: '0 0', duration: .45, ease: 'power3.out' });
         Sound.click();
       };
@@ -468,7 +421,6 @@ const ROOMS = {
     });
   },
 
-  /* ---------- الغرفة 2: التحويل من الثنائي ---------- */
   binary(r, i) {
     const w = [128, 64, 32, 16, 8, 4, 2, 1];
     show(`
@@ -501,7 +453,6 @@ const ROOMS = {
     });
   },
 
-  /* ---------- الغرفة 3: نمط الشبكة ---------- */
   sequence(r, i) {
     const all = [...r.sequence, '?'];
     show(`
@@ -514,8 +465,9 @@ const ROOMS = {
         </div>
       </section>`, el => {
       const net = $('#net'), svg = $('#netSvg');
-      // توزيع العقد بشكل متعرج من اليسار لليمين (اتجاه الإشارة)
-      const place = () => {
+
+       
+       const place = () => {
         const W = net.clientWidth, H = net.clientHeight, n = all.length;
         net.querySelectorAll('.node').forEach(x => x.remove());
         let lines = '';
@@ -543,7 +495,6 @@ const ROOMS = {
     });
   },
 
-  /* ---------- الغرفة 4: الذاكرة (سايمون) ---------- */
   memory(r, i) {
     let input = [], playing = false, token = 0;
     show(`
@@ -592,7 +543,6 @@ const ROOMS = {
     });
   },
 
-  /* ---------- الغرفة 5: القرار + اللغز الأخير ---------- */
   decision(r, i) {
     show(`
       <section class="screen">
@@ -608,8 +558,8 @@ const ROOMS = {
       el.querySelectorAll('.door').forEach(d => d.onclick = () => {
         const c = r.choices[+d.dataset.k];
         if (!c.correct) {
-          // الخيار الخاطئ يكلّف وقتاً ويبقى اللاعب في نفس الغرفة
-          d.classList.add('used');
+
+           d.classList.add('used');
           Sound.alarm(); flashRed(); penalty(CONFIG.trapPenalty); state.mistakes++;
           toast(c.result, true, 3800);
           return;
@@ -640,17 +590,15 @@ const ROOMS = {
   }
 };
 
-// تحويل الأرقام العربية (٠١٢٣…) إلى أرقام لاتينية حتى تُقبل الإجابة بأي لوحة مفاتيح
+
 function toLatinDigits(s) {
   return s.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
 }
 
-/* =========================================================
-   ١٠) الخزنة النهائية
-   ========================================================= */
+
 function vaultSVG() {
-  // باب خزنة دائري بمقبض يدور
-  let bolts = '';
+
+   let bolts = '';
   for (let k = 0; k < 12; k++) bolts += `<rect x="-7" y="-196" width="14" height="26" rx="4" fill="#3a1a10" stroke="#c48a3a" transform="rotate(${k * 30})"/>`;
   let ticks = '';
   for (let k = 0; k < 60; k++) ticks += `<line x1="0" y1="-118" x2="0" y2="${k % 5 ? -110 : -102}" stroke="${k % 5 ? '#7a3a2a' : '#f3c56b'}" stroke-width="2" transform="rotate(${k * 6})"/>`;
@@ -722,8 +670,8 @@ function vault() {
       $('#attempts').textContent = `المحاولات المتبقية: ${state.attemptsLeft}`;
     };
     el.querySelectorAll('.key').forEach(k => k.onclick = () => press(k.dataset.n));
-    // لوحة المفاتيح الحقيقية أيضاً
-    document.onkeydown = e => {
+
+     document.onkeydown = e => {
       if (state.phase !== 'vault') return;
       const d = toLatinDigits(e.key);
       if (/^[0-9]$/.test(d)) press(d);
@@ -733,7 +681,6 @@ function vault() {
   });
 }
 
-// أنيميشن فتح الخزنة الذهبي
 function unlockVault() {
   state.over = true; clearInterval(state.timerId); state.phase = 'end';
   document.onkeydown = null;
@@ -747,9 +694,6 @@ function unlockVault() {
     .to('#vDoor', { rotation: 140, svgOrigin: '0 0', scale: .2, opacity: 0, duration: 1, ease: 'power2.in' }, 1.6);
 }
 
-/* =========================================================
-   ١١) النهايات
-   ========================================================= */
 function endGame(win, reason) {
   if (state.phase === 'end' && !win && state.over) return;
   state.over = true; state.phase = 'end';
@@ -795,7 +739,6 @@ function endGame(win, reason) {
   }
 }
 
-// شرارات ذهبية عند الفوز
 function goldBurst() {
   for (let k = 0; k < 60; k++) {
     const s = document.createElement('div');
@@ -814,9 +757,6 @@ function restart() {
   startGame();
 }
 
-/* =========================================================
-   ١٢) أزرار الشريط العلوي: التلميح وكتم الصوت
-   ========================================================= */
 $('#hintBtn').onclick = () => {
   if (state.phase !== 'room' || state.over) return;
   state.hintsUsed++;
@@ -829,11 +769,7 @@ $('#muteBtn').onclick = () => {
   $('#muteBtn').textContent = Sound.muted ? '🔇' : '🔊';
 };
 
-/* =========================================================
-   ١٣) التشغيل
-   ========================================================= */
 initBackground();
 intro();
 
-// للتجربة فقط: نافذة على حالة اللعبة من الـ Console
 window.LastCode = { CONFIG, state, FINAL_CODE, setMinutesLeft: m => { state.endAt = Date.now() + m * 60000; updateTimer(); } };
