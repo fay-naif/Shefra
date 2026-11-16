@@ -1,45 +1,104 @@
-# 🔐 الشيفرة الأخيرة | THE LAST CODE
+# 🔐 THE LAST CODE | الشيفرة الأخيرة
 
-لعبة ألغاز سينمائية بالمتصفح: ٥ غرف، كل غرفة تعطيك رقماً، وبالنهاية خزنة تدخل فيها الشيفرة قبل ما يخلص العداد (45 دقيقة).
+**An Arabic Cinematic Puzzle & Escape Experience**
 
-## ▶️ طريقة التشغيل
-1. فكّي ضغط الملف `The_Last_Code.zip`
-2. افتحي **VS Code** ← `File` ← `Open Folder` ← اختاري مجلد `The_Last_Code`
-3. ثبّتي إضافة **Live Server** (من Extensions) إذا ما كانت عندك
-4. اضغطي **Go Live** تحت يمين الشاشة ← تفتح اللعبة بالمتصفح ✨
-5. اضغطي «ابدأ» (الصوت يشتغل بعد الضغط، وتقدرين تكتمينه من زر 🔊)
+![HTML5](https://img.shields.io/badge/HTML5-0b1730?style=for-the-badge&logo=html5&logoColor=E5E7EB)
+![CSS3](https://img.shields.io/badge/CSS3-0b1730?style=for-the-badge&logo=css3&logoColor=E5E7EB)
+![JavaScript](https://img.shields.io/badge/JavaScript-0b1730?style=for-the-badge&logo=javascript&logoColor=E5E7EB)
+![GSAP](https://img.shields.io/badge/GSAP-0b1730?style=for-the-badge&logo=greensock&logoColor=E5E7EB)
 
-> كل شي داخل المجلد (الخطوط ومكتبة GSAP)، فاللعبة تشتغل حتى بدون إنترنت.
+---
 
-## 📁 هيكل الملفات
+## 🎮 Overview
+
+**THE LAST CODE** is an Arabic cinematic puzzle game that combines logical reasoning, cryptography, pattern recognition, and interactive challenges within a mysterious digital environment.
+
+Players must navigate five interconnected rooms, solve increasingly complex puzzles, and recover a final five-digit code before the 45-minute countdown reaches zero.
+
+Every decision matters. Every second counts.
+
+**Five rooms. Forty-five minutes. One final code.**
+
+## 📸 Game Preview
+
+| Room 01 | Room 02 | Room 03 |
+|:---:|:---:|:---:|
+| Entry Room | File Room | Network Room |
+| Cipher Decoding | Binary Logic | Pattern Recognition |
+
+## ✨ Key Features
+
+- **Five interconnected puzzle rooms** — a progressive escape-room experience.
+- **Cinematic atmosphere** — dark visuals, glowing interfaces, animated effects, and immersive transitions.
+- **Cryptography challenges** — decode encrypted messages and uncover hidden information.
+- **Logical problem-solving** — explore binary numbers, numerical sequences, and memory-based challenges.
+- **45-minute countdown** — a time-sensitive experience with consequences for incorrect decisions.
+- **Interactive hints** — optional assistance with a time penalty.
+- **Multiple endings** — success or system shutdown based on the player's performance.
+- **Arabic-first interface** — designed for an immersive right-to-left experience.
+
+## 🧩 The Experience
+
+| Stage | Room | Challenge |
+|:---:|---|---|
+| 01 | Entry Room | Cipher Decoding |
+| 02 | File Room | Binary Decryption |
+| 03 | Network Room | Sequence Recognition |
+| 04 | Memory Room | Memory & Pattern Analysis |
+| 05 | Decision Room | Final Logical Challenge |
+
+Each completed room reveals a fragment of the final code, bringing the player closer to unlocking the system.
+
+## 🛠️ Technologies
+
+| Technology | Purpose |
+|---|---|
+| HTML5 | Game structure and interactive elements |
+| CSS3 | Visual design, responsive layouts, and effects |
+| JavaScript | Game logic, puzzles, timer, and interactions |
+| GSAP | Cinematic animations and transitions |
+| Cairo & JetBrains Mono | Arabic typography and technical interface styling |
+
+## 📁 Project Structure
+
+```text
+The-Last-Code/
+├── index.html
+├── style.css
+├── main.js
+├── gsap.min.js
+├── cairo-arabic-400-normal.woff2
+├── cairo-arabic-700-normal.woff2
+├── cairo-arabic-900-normal.woff2
+├── cairo-latin-700-normal.woff2
+├── cairo-latin-900-normal.woff2
+├── jetbrains-mono-latin-500-normal.woff2
+├── jetbrains-mono-latin-700-normal.woff2
+└── README.md
 ```
-The_Last_Code/
-├── index.html          ← هيكل الصفحة
-├── css/style.css       ← الألوان والتصميم (الألوان بأول الملف :root)
-├── js/main.js          ← منطق اللعبة + CONFIG (النصوص والإجابات)
-├── js/vendor/gsap.min.js
-└── assets/fonts/       ← خط Cairo + خط الأكواد
-```
 
-## ✏️ التعديل
-- **النصوص والإجابات والتلميحات:** كلها في كائن `CONFIG` بأول `js/main.js`
-- **مدة اللعبة والعقوبات:** `totalMinutes` و `wrongPenalty` و `hintPenalty` بنفس المكان
-- **الألوان:** متغيرات `:root` بأول `css/style.css`
+## 🚀 Running the Project
 
-## 🎮 قواعد اللعبة
-- الإجابة الخاطئة = خصم **دقيقة**
-- زر «تلميح» = خصم **دقيقتين**
-- الباب الخاطئ في غرفة القرار = خصم **3 دقائق**
-- تحت 5 دقائق يصير العداد أحمر نابض
-- الخزنة لها **3 محاولات**؛ لو خلصت أو خلص الوقت ← «تم إغلاق النظام»
+The game is built using frontend web technologies and requires no backend service.
 
-## 🗝️ الحلول (لك فقط!)
-| الغرفة | اللغز | الحل | الرقم |
-|---|---|---|---|
-| 1. غرفة الدخول | شيفرة قيصر `VHYHQ`، المفتاح عدد أضلاع المثلث | أدِر العجلة لـ **3** ← SEVEN | **7** |
-| 2. غرفة الملفات | الثنائي `00001001` | 8 + 1 = **9** | **9** |
-| 3. غرفة الشبكة | 81 ← 27 ← 9 ← 3 ← ؟ | كل عقدة ÷ 3 ← **1** | **1** |
-| 4. غرفة الذاكرة | تسلسل الألواح | ل ← ع ← و ← ق ← ر | **4** |
-| 5. غرفة القرار | باب «غرفة الصمت» + اللغز | الرقم اللي في نفسه = 25 ← **5** | **5** |
+Once the project files are arranged with their correct asset paths, the experience can run locally in a modern web browser.
 
-**الشيفرة النهائية للخزنة: `79145`**
+## 🎯 Project Vision
+
+THE LAST CODE explores how interactive storytelling and logical challenges can transform problem-solving into an engaging digital experience.
+
+The project combines software development, interface design, and game mechanics to create an experience in which observation, reasoning, and decision-making determine the outcome.
+
+## 👩‍💻 Developed By
+
+**Fay Naif**
+
+Programmer | Data Analyst | UI/UX Designer
+
+[GitHub](https://github.com/fay-naif)
+
+---
+
+*Decode the mystery. Recover the code. Beat the clock.*
+
+**© 2026 Fay Naif — THE LAST CODE**
