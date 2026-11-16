@@ -21,10 +21,13 @@ Every decision matters. Every second counts.
 
 ## 📸 Game Preview
 
-| Room 01 | Room 02 | Room 03 |
-|:---:|:---:|:---:|
-| Entry Room | File Room | Network Room |
-| Cipher Decoding | Binary Logic | Pattern Recognition |
+| Screenshot 01 | Screenshot 02 |
+|:---:|:---:|
+| ![](room-01.png.png) | ![](room-02.png.png) |
+
+| Screenshot 03 | Screenshot 04 |
+|:---:|:---:|
+| ![](room-03.png.png) | ![](room-04.png.png) |
 
 ## ✨ Key Features
 
