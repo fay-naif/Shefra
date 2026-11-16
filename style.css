@@ -36,7 +36,6 @@ body{
 button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .hidden{display:none!important}
 
-/* ---------- طبقات الخلفية ---------- */
 #bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;
   background:
     radial-gradient(ellipse 70% 55% at 50% 38%, rgba(140,0,20,.42), transparent 70%),
@@ -44,7 +43,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
     radial-gradient(ellipse 60% 50% at 10% 90%, rgba(120,0,15,.35), transparent 70%),
     var(--black);}
 
-/* شاشات منحنية مثل غرفة التحكم في الصورة المرجعية */
 .monitors{position:fixed;inset:0;z-index:1;perspective:1100px;pointer-events:none;
   display:flex;justify-content:center;align-items:center;gap:2vw;opacity:.8}
 .mon{width:30vw;height:58vh;border-radius:18px;position:relative;overflow:hidden;
@@ -58,7 +56,6 @@ button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit
 .mon pre{font-family:var(--mono);font-size:11px;line-height:1.55;color:rgba(255,110,110,.6);
   padding:18px;direction:ltr;text-align:left;white-space:pre;}
 
-/* رقم الغرفة الضخم المفرّغ */
 .scene-num{position:fixed;z-index:2;inset:auto 0 -4vw 0;text-align:center;pointer-events:none;
   font-family:var(--mono);font-weight:700;font-size:38vw;line-height:1;color:transparent;
   -webkit-text-stroke:2px rgba(255,50,70,.2);letter-spacing:-.04em;direction:ltr}
