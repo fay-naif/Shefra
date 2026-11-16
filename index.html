@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الشيفرة الأخيرة | THE LAST CODE</title>
+  <!-- ملف التنسيق الرئيسي -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- ===== طبقات الخلفية السينمائية ===== -->
+  <canvas id="bg"></canvas>                 <!-- جزيئات وغبار أحمر متحرك -->
+  <div class="monitors" aria-hidden="true">  <!-- شاشات غرفة التحكم المنحنية -->
+    <div class="mon mon-l"><pre></pre></div>
+    <div class="mon mon-c"><pre></pre></div>
+    <div class="mon mon-r"><pre></pre></div>
+  </div>
+  <div class="scene-num" aria-hidden="true"></div> <!-- رقم الغرفة الضخم في الخلفية -->
+  <div class="fx-vignette"></div>
+  <div class="fx-scan"></div>
+  <div class="fx-grain"></div>
+  <div class="fx-flash"></div>               <!-- وميض أحمر عند الخطأ -->
+
+  <!-- ===== الشريط العلوي: العداد والأقفال ===== -->
+  <header id="hud" class="hud hidden">
+    <div class="hud-brand">الشيفرة الأخيرة</div>
+    <div class="hud-timer" id="timer">45:00</div>
+    <div class="hud-side">
+      <div class="locks" id="locks"></div>
+      <button class="icon-btn" id="hintBtn" title="تلميح (−2 دقيقة)">تلميح <small>−2د</small></button>
+      <button class="icon-btn" id="muteBtn" title="الصوت">🔊</button>
+    </div>
+  </header>
+
+  <!-- ===== الشاشة الرئيسية (تتغير حسب المرحلة) ===== -->
+  <main id="stage" class="stage"></main>
+
+  <!-- نافذة التلميح والرسائل -->
+  <div id="toast" class="toast"></div>
+
+  <!-- مكتبة GSAP محلية (تعمل بدون إنترنت) -->
+  <script src="js/vendor/gsap.min.js"></script>
+  <!-- منطق اللعبة -->
+  <script src="js/main.js"></script>
+</body>
+</html>
